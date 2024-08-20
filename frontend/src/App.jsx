@@ -1,7 +1,15 @@
-import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
-function App() {
-  return <div className='text-3xl text-red-600'>App</div>;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <Header />
+      <Routes>
+        <Route path='/' element={<Home />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  );
 }
-
-export default App;
