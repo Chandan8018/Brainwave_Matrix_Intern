@@ -1,5 +1,6 @@
 {
   "name": "chandanblog",
+  "type": "module",
   "version": "1.0.0",
   "description": "This is a simple blog web app build using MERN Stack",
   "main": "index.js",
