@@ -1,25 +1,45 @@
 import { Link } from "react-router-dom";
+import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 
 export default function PostCard({ post }) {
   return (
-    <div className='group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
-      <Link to={`/post/${post.slug}`}>
-        <img
-          src={post.image}
-          alt='post cover'
-          className='h-[260px] w-full  object-cover group-hover:h-[200px] transition-all duration-300 z-20'
-        />
-      </Link>
-      <div className='p-3 flex flex-col gap-2'>
-        <p className='text-lg font-semibold line-clamp-2'>{post.title}</p>
-        <span className='italic text-sm'>{post.category}</span>
-        <Link
+    <CardContainer className='inter-var'>
+      <CardBody className='bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  '>
+        <CardItem translateZ='100' className='w-full mt-4' as='div'>
+          <div className='p-3 flex flex-col gap-2'>
+            <CardItem
+              translateZ='50'
+              className='text-xl font-bold text-neutral-600 dark:text-white'
+            >
+              {post.title}
+            </CardItem>
+            <CardItem
+              as='p'
+              translateZ='60'
+              className='text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300'
+            >
+              {post.category}
+            </CardItem>
+          </div>
+          <img
+            src={post.image}
+            alt='post cover'
+            height='1000'
+            width='1000'
+            className='h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl'
+          />
+        </CardItem>
+
+        <div className='flex justify-between items-center mt-20'></div>
+        <CardItem
+          translateZ={20}
+          as={Link}
           to={`/post/${post.slug}`}
-          className='z-10 group-hover:bottom-0 absolute bottom-[-200px] left-0 right-0 border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white transition-all duration-300 text-center py-2 rounded-md !rounded-tl-none m-2'
+          className='px-4 py-2 rounded-xl text-xs font-normal dark:text-white'
         >
-          Read article
-        </Link>
-      </div>
-    </div>
+          Read article →
+        </CardItem>
+      </CardBody>
+    </CardContainer>
   );
 }
