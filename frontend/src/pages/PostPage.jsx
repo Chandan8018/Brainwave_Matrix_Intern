@@ -4,6 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
 import PostCard from "../components/PostCard";
+import SparklesCore from "../components/ui/sparkles";
+import { useSelector } from "react-redux";
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -11,6 +13,7 @@ export default function PostPage() {
   const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState(null);
+  const { theme } = useSelector((state) => state.theme);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -91,7 +94,28 @@ export default function PostPage() {
       <CommentSection postId={post._id} />
 
       <div className='flex flex-col justify-center items-center mb-5'>
-        <h1 className='text-xl mt-5'>Recent articles</h1>
+        <div className='h-[8rem] w-full bg-transparent flex flex-col items-center justify-center overflow-hidden rounded-md'>
+          <h1 className='md:text-4xl text-2xl lg:text-6xl mt-10 font-bold text-center text-black dark:text-white relative z-20'>
+            Recent Articles
+          </h1>
+          <div className='w-[40rem] h-40 relative'>
+            {/* Gradients */}
+            <div className='absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm' />
+            <div className='absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4' />
+            <div className='absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm' />
+            <div className='absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4' />
+
+            {/* Core component */}
+            <SparklesCore
+              background='transparent'
+              minSize={0.4}
+              maxSize={1}
+              particleDensity={1200}
+              className='w-96 h-10 ml-32'
+              particleColor={theme === "dark" ? "#FFFFFF" : "#00050C"}
+            />
+          </div>
+        </div>
         <div className='flex flex-wrap gap-5 mt-5 justify-center'>
           {recentPosts &&
             recentPosts.map((post) => <PostCard key={post._id} post={post} />)}

@@ -42,9 +42,10 @@ export default function Home() {
             />
           </div>
         </div>
-        <p className='text-gray-500 text-xs sm:text-sm'>
+        <p className='text-gray-500 text-lg sm:text-sm font-semibold'>
           Here you'll find a variety of articles and tutorials on topics such as
-          web development, software engineering, and programming languages.
+          web development, software engineering, programming languages, and
+          Others.
         </p>
         <Link
           to='/search'
