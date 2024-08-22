@@ -1,11 +1,17 @@
-import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
+import { Button as Btn, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSignOutAlt, FaSun, FaUserCheck } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useEffect, useState } from "react";
+import { ImProfile } from "react-icons/im";
+import { Avatar } from "@mui/material";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
+import { IoIosMail } from "react-icons/io";
+import { Button } from "./ui/moving-border";
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -15,6 +21,38 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const StyledBadge = styled(Badge)(() => ({
+    "& .MuiBadge-badge": {
+      backgroundColor: "#44b700",
+      color: "#44b700",
+      width: "13px",
+      height: "13px",
+      borderRadius: "50%",
+      boxShadow: `0 0 0 2px ${theme}`,
+      "&::after": {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
+        animation: "ripple 1.2s infinite ease-in-out",
+        border: "1px solid currentColor",
+        content: '""',
+      },
+    },
+    "@keyframes ripple": {
+      "0%": {
+        transform: "scale(.8)",
+        opacity: 1,
+      },
+      "100%": {
+        transform: "scale(2.4)",
+        opacity: 0,
+      },
+    },
+  }));
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -69,44 +107,91 @@ export default function Header() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
-      <Button className='w-12 h-10 lg:hidden' color='gray' pill>
+      <Btn className='w-12 h-10 lg:hidden' color='gray' pill>
         <AiOutlineSearch />
-      </Button>
-      <div className='flex gap-2 md:order-2'>
+      </Btn>
+      <div className='flex gap-10 md:order-2'>
         <Button
-          className='w-12 h-10 hidden sm:inline'
-          color='gray'
-          pill
+          borderRadius='1.75rem'
+          className='bg-tansparent text-black dark:text-white border-neutral-200 dark:border-slate-800 w-full h-10 mr-10'
           onClick={() => dispatch(toggleTheme())}
         >
-          {theme === "light" ? <FaSun /> : <FaMoon />}
+          {theme === "light" ? (
+            <FaSun className='w-5 h-5' />
+          ) : (
+            <FaMoon className='w-5 h-5' />
+          )}
         </Button>
         {currentUser ? (
           <Dropdown
             arrowIcon={false}
             inline
             label={
-              <Avatar alt='user' img={currentUser.profilePicture} rounded />
+              <StyledBadge
+                overlap='circular'
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                variant='dot'
+              >
+                <Avatar
+                  alt={currentUser.username}
+                  src={currentUser.profilePicture}
+                  sx={{ width: 44, height: 44 }}
+                />
+              </StyledBadge>
             }
           >
             <Dropdown.Header>
-              <span className='block text-sm'>@{currentUser.username}</span>
-              <span className='block text-sm font-medium truncate'>
+              <div className='flex justify-center items-center gap-2'>
+                <StyledBadge
+                  overlap='circular'
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant='dot'
+                >
+                  <Avatar
+                    alt={currentUser.username}
+                    src={currentUser.profilePicture}
+                    sx={{ width: 60, height: 60 }}
+                  />
+                </StyledBadge>
+
+                <span className='block text-md font-bold text-blue-500 truncate'>
+                  @{currentUser.username}
+                </span>
+              </div>
+              <span className='text-sm font-medium text-gray-500 dark:text-gray-400 truncate mt-2 flex justify-center items-center gap-1'>
+                <IoIosMail className='w-6 h-6 pt-1' />
                 {currentUser.email}
               </span>
             </Dropdown.Header>
-            <Link to={"/dashboard?tab=profile"}>
-              <Dropdown.Item>Profile</Dropdown.Item>
+
+            <Link to={"/dashboard?tab=dash"}>
+              <Dropdown.Item className='text-blue-500 font-semibold'>
+                <ImProfile className='w-4 h-4 mr-2' color='blue' />
+                Dashboard
+              </Dropdown.Item>
             </Link>
+
             <Dropdown.Divider />
-            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+
+            <Dropdown.Item
+              className='text-red-500 font-semibold'
+              onClick={() => {
+                dispatch(signoutSuccess());
+                navigate("/");
+              }}
+            >
+              <FaSignOutAlt className='w-4 h-4 mr-2' color='red' />
+              Sign out
+            </Dropdown.Item>
           </Dropdown>
         ) : (
-          <Link to='/sign-in'>
-            <Button gradientDuoTone='purpleToBlue' outline>
-              Sign In
-            </Button>
-          </Link>
+          <Button
+            borderRadius='1.75rem'
+            className='bg-transparent border-slate-800 mr-4 text-sm font-semibold text-black dark:text-white'
+            onClick={() => navigate("/sign-in")}
+          >
+            Sign In
+          </Button>
         )}
         <Navbar.Toggle />
       </div>

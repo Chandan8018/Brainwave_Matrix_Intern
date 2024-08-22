@@ -82,7 +82,7 @@ export default function Home() {
                 />
               </div>
             </div>
-            <div className='flex flex-wrap gap-4'>
+            <div className='flex flex-wrap gap-14'>
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}
