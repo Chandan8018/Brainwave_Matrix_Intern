@@ -43,7 +43,20 @@ export default function SignIn() {
     }
   };
   return (
-    <div className='min-h-screen mt-20'>
+    <div className='min-h-screen mt-12 '>
+      <div className='mb-7 border-[0.5px] border-gray-300 w-96 mx-auto rounded-md'>
+        <div className='flex flex-col justify-center items-center'>
+          <span className='text-3xl underline font-bold'>
+            Demo Admin Credentials:
+          </span>
+          <span className='mt-3 text-lg font-bold'>
+            Email: <i>admin@gmail.com</i>
+          </span>
+          <span className='mt-3 text-lg font-bold'>
+            Password: <i>admin@123</i>
+          </span>
+        </div>
+      </div>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         {/* left */}
         <div className='flex-1'>
